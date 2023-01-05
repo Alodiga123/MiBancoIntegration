@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="operations">
+      <h2 data-cy="operationsDetailsHeading"><span jhiTranslate="integrationWithMiBancoApp.operations.detail.title">Operations</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ operations.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="integrationWithMiBancoApp.operations.cedulaBeneficiario">Cedula Beneficiario</span></dt>
+        <dd>
+          <span>{{ operations.cedulaBeneficiario }}</span>
+        </dd>
+        <dt><span jhiTranslate="integrationWithMiBancoApp.operations.telefonoEmisor">Telefono Emisor</span></dt>
+        <dd>
+          <span>{{ operations.telefonoEmisor }}</span>
+        </dd>
+        <dt><span jhiTranslate="integrationWithMiBancoApp.operations.telefonoBeneficiario">Telefono Beneficiario</span></dt>
+        <dd>
+          <span>{{ operations.telefonoBeneficiario }}</span>
+        </dd>
+        <dt><span jhiTranslate="integrationWithMiBancoApp.operations.monto">Monto</span></dt>
+        <dd>
+          <span>{{ operations.monto }}</span>
+        </dd>
+        <dt><span jhiTranslate="integrationWithMiBancoApp.operations.bancoEmisor">Banco Emisor</span></dt>
+        <dd>
+          <span>{{ operations.bancoEmisor }}</span>
+        </dd>
+        <dt><span jhiTranslate="integrationWithMiBancoApp.operations.concepto">Concepto</span></dt>
+        <dd>
+          <span>{{ operations.concepto }}</span>
+        </dd>
+        <dt><span jhiTranslate="integrationWithMiBancoApp.operations.referencia">Referencia</span></dt>
+        <dd>
+          <span>{{ operations.referencia }}</span>
+        </dd>
+        <dt><span jhiTranslate="integrationWithMiBancoApp.operations.fechaHora">Fecha Hora</span></dt>
+        <dd>
+          <span>{{ operations.fechaHora }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/operations', operations.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

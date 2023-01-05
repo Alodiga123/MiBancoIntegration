@@ -1,0 +1,55 @@
+
+application {
+  config {
+    baseName IntegrationWithMiBanco 
+    languages [en, es]
+    applicationType monolith
+    packageName com.alodiga.integretion
+    serviceDiscoveryType eureka
+    cacheProvider ehcache
+    serverPort 9191
+    enableHibernateCache true
+    authenticationType jwt
+    databaseType sql
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    searchEngine false
+    enableTranslation true
+    messageBroker false
+    serviceDiscoveryType eureka
+    enableSwaggerCodegen false
+    buildTool maven
+    clientPackageManager npm
+    clientFramework angularX
+    clientTheme none
+    testFrameworks [cypress]
+    reactive true
+  }
+  
+  entities *
+}
+
+entity Operations {
+    CedulaBeneficiario String maxlength(16),
+    TelefonoEmisor String maxlength(14),
+    TelefonoBeneficiario String maxlength(14),
+    Monto String maxlength(20),
+    BancoEmisor String maxlength(4),
+    Concepto String maxlength(255),
+    Referencia String maxlength(15),
+    FechaHora String maxlength(30)
+}
+
+filter Operations
+paginate * with pagination
+
+
+
+
+
+
+
+
+
+
+
