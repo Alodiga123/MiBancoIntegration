@@ -99,7 +99,6 @@ public class TokenProvider {
     public boolean validateToken(String authToken) {
         try {
             jwtParser.parseClaimsJws(authToken);
-
             return true;
         } catch (ExpiredJwtException e) {
             this.securityMetersService.trackTokenExpired();
