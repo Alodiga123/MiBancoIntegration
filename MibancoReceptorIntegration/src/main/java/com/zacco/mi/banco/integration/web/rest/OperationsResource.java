@@ -3,6 +3,7 @@ package com.zacco.mi.banco.integration.web.rest;
 import com.alodiga.transaction.gateway.integration.methods.TransactionGateway;
 import com.alodiga.transaction.gateway.integration.response.PostRechargeResponse;
 import com.zacco.mi.banco.integration.config.Constants;
+import com.zacco.mi.banco.util.Util;
 import com.zacco.mi.banco.integration.domain.Operations;
 import com.zacco.mi.banco.integration.operationdto.OperationDTO;
 import com.zacco.mi.banco.integration.repository.OperationsRepository;
@@ -66,21 +67,35 @@ public class OperationsResource {
      * {@code POST  /operations} : Create a new operations.
      *
      * @param operations the operations to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new operations, or with status {@code 400 (Bad Request)} if the operations has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
+     * with body the new operations, or with status {@code 400 (Bad Request)} if
+     * the operations has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/operations")
-    public ResponseEntity<Response> createOperations(@RequestBody OperationDTO operations) throws URISyntaxException {
+    public ResponseEntity<Response> createOperations(@RequestBody OperationDTO operations) throws URISyntaxException, Exception {
         log.debug("REST request to save Operations : {}", operations);
         Response response = new Response();
+
+        if (Float.parseFloat(operations.getMonto()) <= 0) {
+            response.setSuccess(false);
+            return ResponseEntity.badRequest().body(response);
+        }
         boolean validar = valid(operations);
         if (!validar) {
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
         }
-        try {                    
-            
-            Operations operation = new Operations();            
+        String FechaOperacion = Util.InstantDateFormatedDate(operations.getFechaHora());
+        PostRechargeResponse operationZacco = TransactionGateway.RechargeIntegrationP2P(6000, operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(), operations.getTelefonoBeneficiario(), Float.valueOf(operations.getMonto()), operations.getBancoEmisor(), operations.getConcepto(), operations.getReferencia(), FechaOperacion);
+        if (!"00".equals(operationZacco.getResponseData().getCodigoRespuesta())) {
+            response.setSuccess(false);
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        try {
+
+            Operations operation = new Operations();
             operation.setCedulaBeneficiario(operations.getCedulaBeneficiario());
             operation.setTelefonoEmisor(operations.getTelefonoEmisor());
             operation.setTelefonoBeneficiario(operations.getTelefonoBeneficiario());
@@ -88,7 +103,7 @@ public class OperationsResource {
             operation.setBancoEmisor(operations.getBancoEmisor());
             operation.setConcepto(operations.getConcepto());
             operation.setReferencia(operations.getReferencia());
-            operation.setFechaHora(operations.getFechaHora());             
+            operation.setFechaHora(operations.getFechaHora());
             operationsRepository.save(operation);
 
         } catch (Exception e) {
@@ -234,7 +249,7 @@ public class OperationsResource {
       return !(o.getCedulaBeneficiario() == null || o.getCedulaBeneficiario().equals(" ") || o.getCedulaBeneficiario().isBlank() || o.getCedulaBeneficiario().isEmpty() ||
               o.getTelefonoBeneficiario() == null || o.getTelefonoEmisor().equals(" ") || o.getTelefonoEmisor().isBlank() || o.getTelefonoEmisor().isEmpty() ||
               o.getTelefonoBeneficiario() == null || o.getTelefonoBeneficiario().equals(" ") || o.getTelefonoBeneficiario().isBlank() || o.getTelefonoBeneficiario().isEmpty() ||
-              o.getMonto() == null || o.getMonto().equals(" ") || o.getMonto().isBlank() || o.getMonto().isEmpty() ||
+              o.getMonto() == null || o.getMonto().equals(" ") || o.getMonto().isBlank() || o.getMonto().isEmpty() || 
               o.getBancoEmisor() == null || o.getBancoEmisor().equals(" ") || o.getBancoEmisor().isBlank() || o.getBancoEmisor().isEmpty() ||
               o.getConcepto() == null || o.getConcepto().equals(" ") || o.getConcepto().isBlank() || o.getConcepto().isEmpty() ||
               o.getReferencia() == null || o.getReferencia().equals(" ") || o.getReferencia().isBlank() || o.getReferencia().isEmpty() ||
