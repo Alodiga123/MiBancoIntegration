@@ -2,7 +2,7 @@ package com.zacco.mi.banco.integration.web.rest;
 
 import com.alodiga.transaction.gateway.integration.methods.TransactionGateway;
 import com.alodiga.transaction.gateway.integration.response.PostRechargeResponse;
-import com.zacco.mi.banco.integration.config.Constants;
+
 import com.zacco.mi.banco.util.Util;
 import com.zacco.mi.banco.integration.domain.Operations;
 import com.zacco.mi.banco.integration.operationdto.OperationDTO;
@@ -12,7 +12,11 @@ import com.zacco.mi.banco.integration.service.OperationsQueryService;
 import com.zacco.mi.banco.integration.service.OperationsService;
 import com.zacco.mi.banco.integration.service.criteria.OperationsCriteria;
 import com.zacco.mi.banco.integration.web.rest.errors.BadRequestAlertException;
-import java.net.URI;
+import static com.zacco.mi.banco.util.Util.first_Chars;
+import static com.zacco.mi.banco.util.Util.remove_first_Char;
+import static com.zacco.mi.banco.util.Util.removerZeroPhone;
+import static com.zacco.mi.banco.util.Util.type_Document_Valid;
+
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
@@ -75,8 +79,12 @@ public class OperationsResource {
     @PostMapping("/operations")
     public ResponseEntity<Response> createOperations(@RequestBody OperationDTO operations) throws URISyntaxException, Exception {
         log.debug("REST request to save Operations : {}", operations);
-        Response response = new Response();
-
+        Response response = new Response();        
+        String type_document = first_Chars(operations.getCedulaBeneficiario());        
+        if(!type_Document_Valid(type_document)){
+            response.setSuccess(false);
+            return ResponseEntity.badRequest().body(response);
+        }
         if (Float.parseFloat(operations.getMonto()) <= 0) {
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
@@ -85,14 +93,16 @@ public class OperationsResource {
         if (!validar) {
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
-        }
+        }        
         String FechaOperacion = Util.InstantDateFormatedDate(operations.getFechaHora());
-        PostRechargeResponse operationZacco = TransactionGateway.RechargeIntegrationP2P(6000, operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(), operations.getTelefonoBeneficiario(), Float.valueOf(operations.getMonto()), operations.getBancoEmisor(), operations.getConcepto(), operations.getReferencia(), FechaOperacion);
+        PostRechargeResponse operationZacco = TransactionGateway.RechargeIntegrationP2P(6000, remove_first_Char(operations.getCedulaBeneficiario()),
+                removerZeroPhone(operations.getTelefonoEmisor()), removerZeroPhone(operations.getTelefonoBeneficiario()), Float.valueOf(operations.getMonto()),
+                operations.getBancoEmisor(), operations.getConcepto(), operations.getReferencia(), FechaOperacion);
+        
         if (!"00".equals(operationZacco.getResponseData().getCodigoRespuesta())) {
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
         }
-
         try {
 
             Operations operation = new Operations();
@@ -110,7 +120,6 @@ public class OperationsResource {
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
         }
-
         response.setSuccess(true);
         return ResponseEntity.ok().body(response);
     }
@@ -256,5 +265,6 @@ public class OperationsResource {
               o.getFechaHora() == null || o.getFechaHora().equals(" ") || o.getFechaHora().isBlank() || o.getFechaHora().isEmpty());
 
         
-    }  
+    }     
+
 }

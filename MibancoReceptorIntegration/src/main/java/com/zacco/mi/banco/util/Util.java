@@ -22,4 +22,39 @@ public class Util {
         builder.append(second);
         return builder.toString();
     }
+    
+    public static Boolean type_Document_Valid(String type_document) {
+        boolean valid = false;
+        String[] arreglo = Constants.TYPE_DOCUMENT_NATIONALITY;
+        for (String pivote : arreglo) {
+            if (pivote.equals((type_document).toUpperCase())) {
+                valid = true;
+                break;
+            } 
+        }
+        return valid;
+    }
+
+    public static String first_Chars(String numberDocument) {
+        int n = 1;        
+        if (numberDocument == null) {
+            return null;
+        }
+
+        return numberDocument.length() < n ? numberDocument : numberDocument.substring(0, n);
+    }
+
+    public static String remove_first_Char(String numberDocument) {
+        if (numberDocument == null || numberDocument.length() == 0) {
+            return numberDocument;
+        }
+        return numberDocument.substring(1);
+    }
+    
+    public static String removerZeroPhone(String numberPhone) {
+        if (numberPhone == null || numberPhone.length() == 0) {
+            return numberPhone;
+        }
+        return numberPhone.substring(2);
+    }
 }
