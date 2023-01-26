@@ -78,6 +78,16 @@ public class OperationsResource {
         log.debug("REST request to save Operations : {}", operations);
         Response response = new Response();
         String type_document = first_Chars(operations.getCedulaBeneficiario());
+        boolean validar = valid(operations);
+        if (!validar) {            
+            Operations operation = new Operations(operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(),
+                    operations.getTelefonoBeneficiario(), operations.getMonto(), operations.getBancoEmisor(),
+                    operations.getConcepto(), operations.getReferencia(), operations.getFechaHora(), false, Constants.IS_REQUIRED);
+            operationsRepository.save(operation);    
+            log.debug("Object: {}", operation);
+            response.setSuccess(false);
+            return ResponseEntity.badRequest().body(response);
+        }
         if (!type_Document_Valid(type_document)) {            
             Operations operation = new Operations(operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(),
                     operations.getTelefonoBeneficiario(), operations.getMonto(), operations.getBancoEmisor(),
@@ -96,16 +106,7 @@ public class OperationsResource {
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
         }
-        boolean validar = valid(operations);
-        if (!validar) {            
-            Operations operation = new Operations(operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(),
-                    operations.getTelefonoBeneficiario(), operations.getMonto(), operations.getBancoEmisor(),
-                    operations.getConcepto(), operations.getReferencia(), operations.getFechaHora(), false, Constants.IS_REQUIRED);
-            operationsRepository.save(operation);    
-            log.debug("Object: {}", operation);
-            response.setSuccess(false);
-            return ResponseEntity.badRequest().body(response);
-        }
+        
         String FechaOperacion = Util.InstantDateFormatedDate(operations.getFechaHora());
         PostRechargeResponse operationZacco = TransactionGateway.RechargeIntegrationP2P(6000, remove_first_Char(operations.getCedulaBeneficiario()),
                 removerZeroPhone(operations.getTelefonoEmisor()), removerZeroPhone(operations.getTelefonoBeneficiario()), Float.valueOf(operations.getMonto()),

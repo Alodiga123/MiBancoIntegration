@@ -20,6 +20,5 @@ public class Constants {
     public static final String MINIMUM_AMOUNT = "Monto minimo invalido";
     public static final String IS_REQUIRED = "Todos los datos son requeridos";
     public static final String UNREGISTERED_USER = "Usuario no registrado";
-    public static final String SUCCESSFUL = "Transaccion exitosa";
-    
+    public static final String SUCCESSFUL = "Transaccion exitosa";    
 }
