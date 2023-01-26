@@ -176,6 +176,11 @@ describe('Operations e2e test', () => {
 
       cy.get(`[data-cy="fechaHora"]`).type('Asistente Bahamas').should('have.value', 'Asistente Bahamas');
 
+      cy.get(`[data-cy="status"]`).should('not.be.checked');
+      cy.get(`[data-cy="status"]`).click().should('be.checked');
+
+      cy.get(`[data-cy="description"]`).type('Cantabria').should('have.value', 'Cantabria');
+
       cy.get(entityCreateSaveButtonSelector).click();
 
       cy.wait('@postEntityRequest').then(({ response }) => {

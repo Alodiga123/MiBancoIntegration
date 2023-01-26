@@ -111,6 +111,12 @@ public class OperationsQueryService extends QueryService<Operations> {
             if (criteria.getFechaHora() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFechaHora(), Operations_.fechaHora));
             }
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatus(), Operations_.status));
+            }
+            if (criteria.getDescription() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getDescription(), Operations_.description));
+            }
         }
         return specification;
     }

@@ -88,6 +88,18 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="status">
+            <div class="d-flex">
+              <span jhiTranslate="mibancoReceptorIntegrationApp.operations.status">Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description">
+            <div class="d-flex">
+              <span jhiTranslate="mibancoReceptorIntegrationApp.operations.description">Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -104,6 +116,8 @@
           <td>{{ operations.concepto }}</td>
           <td>{{ operations.referencia }}</td>
           <td>{{ operations.fechaHora }}</td>
+          <td>{{ operations.status }}</td>
+          <td>{{ operations.description }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

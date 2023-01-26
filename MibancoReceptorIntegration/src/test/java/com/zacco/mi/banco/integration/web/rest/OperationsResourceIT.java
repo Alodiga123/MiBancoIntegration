@@ -1,119 +1,130 @@
-package com.zacco.mi.banco.integration.web.rest;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-
-import com.zacco.mi.banco.integration.domain.Operations;
-import com.zacco.mi.banco.integration.repository.OperationsRepository;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-
-/**
- * Integration tests for the {@link OperationsResource} REST controller.
- */
-
-@AutoConfigureMockMvc
-@WithMockUser
-class OperationsResourceIT {
-
-    private static final String DEFAULT_CEDULA_BENEFICIARIO = "AAAAAAAAAA";
-    private static final String UPDATED_CEDULA_BENEFICIARIO = "BBBBBBBBBB";
-
-    private static final String DEFAULT_TELEFONO_EMISOR = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_EMISOR = "BBBBBBBBBB";
-
-    private static final String DEFAULT_TELEFONO_BENEFICIARIO = "AAAAAAAAAA";
-    private static final String UPDATED_TELEFONO_BENEFICIARIO = "BBBBBBBBBB";
-
-    private static final String DEFAULT_MONTO = "AAAAAAAAAA";
-    private static final String UPDATED_MONTO = "BBBBBBBBBB";
-
-    private static final String DEFAULT_BANCO_EMISOR = "AAAA";
-    private static final String UPDATED_BANCO_EMISOR = "BBBB";
-
-    private static final String DEFAULT_CONCEPTO = "AAAAAAAAAA";
-    private static final String UPDATED_CONCEPTO = "BBBBBBBBBB";
-
-    private static final String DEFAULT_REFERENCIA = "AAAAAAAAAA";
-    private static final String UPDATED_REFERENCIA = "BBBBBBBBBB";
-
-    private static final String DEFAULT_FECHA_HORA = "AAAAAAAAAA";
-    private static final String UPDATED_FECHA_HORA = "BBBBBBBBBB";
-
-    private static final String ENTITY_API_URL = "/api/operations";
-    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
-
-    private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
-
-    @Autowired
-    private OperationsRepository operationsRepository;
-
-    @Autowired
-    private EntityManager em;
-
-    @Autowired
-    private MockMvc restOperationsMockMvc;
-
-    private Operations operations;
-
-    /**
-     * Create an entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
-    public static Operations createEntity(EntityManager em) {
-        Operations operations = new Operations()
-            .cedulaBeneficiario(DEFAULT_CEDULA_BENEFICIARIO)
-            .telefonoEmisor(DEFAULT_TELEFONO_EMISOR)
-            .telefonoBeneficiario(DEFAULT_TELEFONO_BENEFICIARIO)
-            .monto(DEFAULT_MONTO)
-            .bancoEmisor(DEFAULT_BANCO_EMISOR)
-            .concepto(DEFAULT_CONCEPTO)
-            .referencia(DEFAULT_REFERENCIA)
-            .fechaHora(DEFAULT_FECHA_HORA);
-        return operations;
-    }
-
-    /**
-     * Create an updated entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
-    public static Operations createUpdatedEntity(EntityManager em) {
-        Operations operations = new Operations()
-            .cedulaBeneficiario(UPDATED_CEDULA_BENEFICIARIO)
-            .telefonoEmisor(UPDATED_TELEFONO_EMISOR)
-            .telefonoBeneficiario(UPDATED_TELEFONO_BENEFICIARIO)
-            .monto(UPDATED_MONTO)
-            .bancoEmisor(UPDATED_BANCO_EMISOR)
-            .concepto(UPDATED_CONCEPTO)
-            .referencia(UPDATED_REFERENCIA)
-            .fechaHora(UPDATED_FECHA_HORA);
-        return operations;
-    }
-
-    @BeforeEach
-    public void initTest() {
-        operations = createEntity(em);
-    }
-
-
+//package com.zacco.mi.banco.integration.web.rest;
+//
+//import static org.assertj.core.api.Assertions.assertThat;
+//import static org.hamcrest.Matchers.hasItem;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+//
+//import com.zacco.mi.banco.integration.IntegrationTest;
+//import com.zacco.mi.banco.integration.domain.Operations;
+//import com.zacco.mi.banco.integration.repository.OperationsRepository;
+//import com.zacco.mi.banco.integration.service.criteria.OperationsCriteria;
+//import java.util.List;
+//import java.util.Random;
+//import java.util.concurrent.atomic.AtomicLong;
+//import javax.persistence.EntityManager;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+//import org.springframework.http.MediaType;
+//import org.springframework.security.test.context.support.WithMockUser;
+//import org.springframework.test.web.servlet.MockMvc;
+//import org.springframework.transaction.annotation.Transactional;
+//
+///**
+// * Integration tests for the {@link OperationsResource} REST controller.
+// */
+//@IntegrationTest
+//@AutoConfigureMockMvc
+//@WithMockUser
+//class OperationsResourceIT {
+//
+//    private static final String DEFAULT_CEDULA_BENEFICIARIO = "AAAAAAAAAA";
+//    private static final String UPDATED_CEDULA_BENEFICIARIO = "BBBBBBBBBB";
+//
+//    private static final String DEFAULT_TELEFONO_EMISOR = "AAAAAAAAAA";
+//    private static final String UPDATED_TELEFONO_EMISOR = "BBBBBBBBBB";
+//
+//    private static final String DEFAULT_TELEFONO_BENEFICIARIO = "AAAAAAAAAA";
+//    private static final String UPDATED_TELEFONO_BENEFICIARIO = "BBBBBBBBBB";
+//
+//    private static final String DEFAULT_MONTO = "AAAAAAAAAA";
+//    private static final String UPDATED_MONTO = "BBBBBBBBBB";
+//
+//    private static final String DEFAULT_BANCO_EMISOR = "AAAA";
+//    private static final String UPDATED_BANCO_EMISOR = "BBBB";
+//
+//    private static final String DEFAULT_CONCEPTO = "AAAAAAAAAA";
+//    private static final String UPDATED_CONCEPTO = "BBBBBBBBBB";
+//
+//    private static final String DEFAULT_REFERENCIA = "AAAAAAAAAA";
+//    private static final String UPDATED_REFERENCIA = "BBBBBBBBBB";
+//
+//    private static final String DEFAULT_FECHA_HORA = "AAAAAAAAAA";
+//    private static final String UPDATED_FECHA_HORA = "BBBBBBBBBB";
+//
+//    private static final Boolean DEFAULT_STATUS = false;
+//    private static final Boolean UPDATED_STATUS = true;
+//
+//    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+//    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+//
+//    private static final String ENTITY_API_URL = "/api/operations";
+//    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
+//
+//    private static Random random = new Random();
+//    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+//
+//    @Autowired
+//    private OperationsRepository operationsRepository;
+//
+//    @Autowired
+//    private EntityManager em;
+//
+//    @Autowired
+//    private MockMvc restOperationsMockMvc;
+//
+//    private Operations operations;
+//
+//    /**
+//     * Create an entity for this test.
+//     *
+//     * This is a static method, as tests for other entities might also need it,
+//     * if they test an entity which requires the current entity.
+//     */
+//    public static Operations createEntity(EntityManager em) {
+//        Operations operations = new Operations()
+//            .cedulaBeneficiario(DEFAULT_CEDULA_BENEFICIARIO)
+//            .telefonoEmisor(DEFAULT_TELEFONO_EMISOR)
+//            .telefonoBeneficiario(DEFAULT_TELEFONO_BENEFICIARIO)
+//            .monto(DEFAULT_MONTO)
+//            .bancoEmisor(DEFAULT_BANCO_EMISOR)
+//            .concepto(DEFAULT_CONCEPTO)
+//            .referencia(DEFAULT_REFERENCIA)
+//            .fechaHora(DEFAULT_FECHA_HORA)
+//            .status(DEFAULT_STATUS)
+//            .description(DEFAULT_DESCRIPTION);
+//        return operations;
+//    }
+//
+//    /**
+//     * Create an updated entity for this test.
+//     *
+//     * This is a static method, as tests for other entities might also need it,
+//     * if they test an entity which requires the current entity.
+//     */
+//    public static Operations createUpdatedEntity(EntityManager em) {
+//        Operations operations = new Operations()
+//            .cedulaBeneficiario(UPDATED_CEDULA_BENEFICIARIO)
+//            .telefonoEmisor(UPDATED_TELEFONO_EMISOR)
+//            .telefonoBeneficiario(UPDATED_TELEFONO_BENEFICIARIO)
+//            .monto(UPDATED_MONTO)
+//            .bancoEmisor(UPDATED_BANCO_EMISOR)
+//            .concepto(UPDATED_CONCEPTO)
+//            .referencia(UPDATED_REFERENCIA)
+//            .fechaHora(UPDATED_FECHA_HORA)
+//            .status(UPDATED_STATUS)
+//            .description(UPDATED_DESCRIPTION);
+//        return operations;
+//    }
+//
+//    @BeforeEach
+//    public void initTest() {
+//        operations = createEntity(em);
+//    }
+//
+//    @Test
 //    @Transactional
 //    void createOperations() throws Exception {
 //        int databaseSizeBeforeCreate = operationsRepository.findAll().size();
@@ -134,8 +145,10 @@ class OperationsResourceIT {
 //        assertThat(testOperations.getConcepto()).isEqualTo(DEFAULT_CONCEPTO);
 //        assertThat(testOperations.getReferencia()).isEqualTo(DEFAULT_REFERENCIA);
 //        assertThat(testOperations.getFechaHora()).isEqualTo(DEFAULT_FECHA_HORA);
+//        assertThat(testOperations.getStatus()).isEqualTo(DEFAULT_STATUS);
+//        assertThat(testOperations.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
 //    }
-
+//
 //    @Test
 //    @Transactional
 //    void createOperationsWithExistingId() throws Exception {
@@ -173,7 +186,9 @@ class OperationsResourceIT {
 //            .andExpect(jsonPath("$.[*].bancoEmisor").value(hasItem(DEFAULT_BANCO_EMISOR)))
 //            .andExpect(jsonPath("$.[*].concepto").value(hasItem(DEFAULT_CONCEPTO)))
 //            .andExpect(jsonPath("$.[*].referencia").value(hasItem(DEFAULT_REFERENCIA)))
-//            .andExpect(jsonPath("$.[*].fechaHora").value(hasItem(DEFAULT_FECHA_HORA)));
+//            .andExpect(jsonPath("$.[*].fechaHora").value(hasItem(DEFAULT_FECHA_HORA)))
+//            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())))
+//            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
 //    }
 //
 //    @Test
@@ -195,7 +210,9 @@ class OperationsResourceIT {
 //            .andExpect(jsonPath("$.bancoEmisor").value(DEFAULT_BANCO_EMISOR))
 //            .andExpect(jsonPath("$.concepto").value(DEFAULT_CONCEPTO))
 //            .andExpect(jsonPath("$.referencia").value(DEFAULT_REFERENCIA))
-//            .andExpect(jsonPath("$.fechaHora").value(DEFAULT_FECHA_HORA));
+//            .andExpect(jsonPath("$.fechaHora").value(DEFAULT_FECHA_HORA))
+//            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.booleanValue()))
+//            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
 //    }
 //
 //    @Test
@@ -736,6 +753,110 @@ class OperationsResourceIT {
 //        defaultOperationsShouldBeFound("fechaHora.doesNotContain=" + UPDATED_FECHA_HORA);
 //    }
 //
+//    @Test
+//    @Transactional
+//    void getAllOperationsByStatusIsEqualToSomething() throws Exception {
+//        // Initialize the database
+//        operationsRepository.saveAndFlush(operations);
+//
+//        // Get all the operationsList where status equals to DEFAULT_STATUS
+//        defaultOperationsShouldBeFound("status.equals=" + DEFAULT_STATUS);
+//
+//        // Get all the operationsList where status equals to UPDATED_STATUS
+//        defaultOperationsShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+//    }
+//
+//    @Test
+//    @Transactional
+//    void getAllOperationsByStatusIsInShouldWork() throws Exception {
+//        // Initialize the database
+//        operationsRepository.saveAndFlush(operations);
+//
+//        // Get all the operationsList where status in DEFAULT_STATUS or UPDATED_STATUS
+//        defaultOperationsShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+//
+//        // Get all the operationsList where status equals to UPDATED_STATUS
+//        defaultOperationsShouldNotBeFound("status.in=" + UPDATED_STATUS);
+//    }
+//
+//    @Test
+//    @Transactional
+//    void getAllOperationsByStatusIsNullOrNotNull() throws Exception {
+//        // Initialize the database
+//        operationsRepository.saveAndFlush(operations);
+//
+//        // Get all the operationsList where status is not null
+//        defaultOperationsShouldBeFound("status.specified=true");
+//
+//        // Get all the operationsList where status is null
+//        defaultOperationsShouldNotBeFound("status.specified=false");
+//    }
+//
+//    @Test
+//    @Transactional
+//    void getAllOperationsByDescriptionIsEqualToSomething() throws Exception {
+//        // Initialize the database
+//        operationsRepository.saveAndFlush(operations);
+//
+//        // Get all the operationsList where description equals to DEFAULT_DESCRIPTION
+//        defaultOperationsShouldBeFound("description.equals=" + DEFAULT_DESCRIPTION);
+//
+//        // Get all the operationsList where description equals to UPDATED_DESCRIPTION
+//        defaultOperationsShouldNotBeFound("description.equals=" + UPDATED_DESCRIPTION);
+//    }
+//
+//    @Test
+//    @Transactional
+//    void getAllOperationsByDescriptionIsInShouldWork() throws Exception {
+//        // Initialize the database
+//        operationsRepository.saveAndFlush(operations);
+//
+//        // Get all the operationsList where description in DEFAULT_DESCRIPTION or UPDATED_DESCRIPTION
+//        defaultOperationsShouldBeFound("description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION);
+//
+//        // Get all the operationsList where description equals to UPDATED_DESCRIPTION
+//        defaultOperationsShouldNotBeFound("description.in=" + UPDATED_DESCRIPTION);
+//    }
+//
+//    @Test
+//    @Transactional
+//    void getAllOperationsByDescriptionIsNullOrNotNull() throws Exception {
+//        // Initialize the database
+//        operationsRepository.saveAndFlush(operations);
+//
+//        // Get all the operationsList where description is not null
+//        defaultOperationsShouldBeFound("description.specified=true");
+//
+//        // Get all the operationsList where description is null
+//        defaultOperationsShouldNotBeFound("description.specified=false");
+//    }
+//
+//    @Test
+//    @Transactional
+//    void getAllOperationsByDescriptionContainsSomething() throws Exception {
+//        // Initialize the database
+//        operationsRepository.saveAndFlush(operations);
+//
+//        // Get all the operationsList where description contains DEFAULT_DESCRIPTION
+//        defaultOperationsShouldBeFound("description.contains=" + DEFAULT_DESCRIPTION);
+//
+//        // Get all the operationsList where description contains UPDATED_DESCRIPTION
+//        defaultOperationsShouldNotBeFound("description.contains=" + UPDATED_DESCRIPTION);
+//    }
+//
+//    @Test
+//    @Transactional
+//    void getAllOperationsByDescriptionNotContainsSomething() throws Exception {
+//        // Initialize the database
+//        operationsRepository.saveAndFlush(operations);
+//
+//        // Get all the operationsList where description does not contain DEFAULT_DESCRIPTION
+//        defaultOperationsShouldNotBeFound("description.doesNotContain=" + DEFAULT_DESCRIPTION);
+//
+//        // Get all the operationsList where description does not contain UPDATED_DESCRIPTION
+//        defaultOperationsShouldBeFound("description.doesNotContain=" + UPDATED_DESCRIPTION);
+//    }
+//
 //    /**
 //     * Executes the search, and checks that the default entity is returned.
 //     */
@@ -752,7 +873,9 @@ class OperationsResourceIT {
 //            .andExpect(jsonPath("$.[*].bancoEmisor").value(hasItem(DEFAULT_BANCO_EMISOR)))
 //            .andExpect(jsonPath("$.[*].concepto").value(hasItem(DEFAULT_CONCEPTO)))
 //            .andExpect(jsonPath("$.[*].referencia").value(hasItem(DEFAULT_REFERENCIA)))
-//            .andExpect(jsonPath("$.[*].fechaHora").value(hasItem(DEFAULT_FECHA_HORA)));
+//            .andExpect(jsonPath("$.[*].fechaHora").value(hasItem(DEFAULT_FECHA_HORA)))
+//            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.booleanValue())))
+//            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
 //
 //        // Check, that the count call also returns 1
 //        restOperationsMockMvc
@@ -808,7 +931,9 @@ class OperationsResourceIT {
 //            .bancoEmisor(UPDATED_BANCO_EMISOR)
 //            .concepto(UPDATED_CONCEPTO)
 //            .referencia(UPDATED_REFERENCIA)
-//            .fechaHora(UPDATED_FECHA_HORA);
+//            .fechaHora(UPDATED_FECHA_HORA)
+//            .status(UPDATED_STATUS)
+//            .description(UPDATED_DESCRIPTION);
 //
 //        restOperationsMockMvc
 //            .perform(
@@ -830,6 +955,8 @@ class OperationsResourceIT {
 //        assertThat(testOperations.getConcepto()).isEqualTo(UPDATED_CONCEPTO);
 //        assertThat(testOperations.getReferencia()).isEqualTo(UPDATED_REFERENCIA);
 //        assertThat(testOperations.getFechaHora()).isEqualTo(UPDATED_FECHA_HORA);
+//        assertThat(testOperations.getStatus()).isEqualTo(UPDATED_STATUS);
+//        assertThat(testOperations.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 //    }
 //
 //    @Test
@@ -900,7 +1027,7 @@ class OperationsResourceIT {
 //        Operations partialUpdatedOperations = new Operations();
 //        partialUpdatedOperations.setId(operations.getId());
 //
-//        partialUpdatedOperations.telefonoEmisor(UPDATED_TELEFONO_EMISOR).bancoEmisor(UPDATED_BANCO_EMISOR);
+//        partialUpdatedOperations.telefonoEmisor(UPDATED_TELEFONO_EMISOR).bancoEmisor(UPDATED_BANCO_EMISOR).description(UPDATED_DESCRIPTION);
 //
 //        restOperationsMockMvc
 //            .perform(
@@ -922,6 +1049,8 @@ class OperationsResourceIT {
 //        assertThat(testOperations.getConcepto()).isEqualTo(DEFAULT_CONCEPTO);
 //        assertThat(testOperations.getReferencia()).isEqualTo(DEFAULT_REFERENCIA);
 //        assertThat(testOperations.getFechaHora()).isEqualTo(DEFAULT_FECHA_HORA);
+//        assertThat(testOperations.getStatus()).isEqualTo(DEFAULT_STATUS);
+//        assertThat(testOperations.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 //    }
 //
 //    @Test
@@ -944,7 +1073,9 @@ class OperationsResourceIT {
 //            .bancoEmisor(UPDATED_BANCO_EMISOR)
 //            .concepto(UPDATED_CONCEPTO)
 //            .referencia(UPDATED_REFERENCIA)
-//            .fechaHora(UPDATED_FECHA_HORA);
+//            .fechaHora(UPDATED_FECHA_HORA)
+//            .status(UPDATED_STATUS)
+//            .description(UPDATED_DESCRIPTION);
 //
 //        restOperationsMockMvc
 //            .perform(
@@ -966,6 +1097,8 @@ class OperationsResourceIT {
 //        assertThat(testOperations.getConcepto()).isEqualTo(UPDATED_CONCEPTO);
 //        assertThat(testOperations.getReferencia()).isEqualTo(UPDATED_REFERENCIA);
 //        assertThat(testOperations.getFechaHora()).isEqualTo(UPDATED_FECHA_HORA);
+//        assertThat(testOperations.getStatus()).isEqualTo(UPDATED_STATUS);
+//        assertThat(testOperations.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 //    }
 //
 //    @Test
@@ -1043,4 +1176,4 @@ class OperationsResourceIT {
 //        List<Operations> operationsList = operationsRepository.findAll();
 //        assertThat(operationsList).hasSize(databaseSizeBeforeDelete - 1);
 //    }
-}
+//}

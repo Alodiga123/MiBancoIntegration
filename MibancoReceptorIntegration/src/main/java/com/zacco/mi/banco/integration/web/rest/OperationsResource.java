@@ -2,8 +2,6 @@ package com.zacco.mi.banco.integration.web.rest;
 
 import com.alodiga.transaction.gateway.integration.methods.TransactionGateway;
 import com.alodiga.transaction.gateway.integration.response.PostRechargeResponse;
-
-import com.zacco.mi.banco.util.Util;
 import com.zacco.mi.banco.integration.domain.Operations;
 import com.zacco.mi.banco.integration.operationdto.OperationDTO;
 import com.zacco.mi.banco.integration.repository.OperationsRepository;
@@ -12,11 +10,13 @@ import com.zacco.mi.banco.integration.service.OperationsQueryService;
 import com.zacco.mi.banco.integration.service.OperationsService;
 import com.zacco.mi.banco.integration.service.criteria.OperationsCriteria;
 import com.zacco.mi.banco.integration.web.rest.errors.BadRequestAlertException;
+import com.zacco.mi.banco.util.Constants;
+import com.zacco.mi.banco.util.Util;
 import static com.zacco.mi.banco.util.Util.first_Chars;
 import static com.zacco.mi.banco.util.Util.remove_first_Char;
 import static com.zacco.mi.banco.util.Util.removerZeroPhone;
 import static com.zacco.mi.banco.util.Util.type_Document_Valid;
-
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -71,52 +70,65 @@ public class OperationsResource {
      * {@code POST  /operations} : Create a new operations.
      *
      * @param operations the operations to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and
-     * with body the new operations, or with status {@code 400 (Bad Request)} if
-     * the operations has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new operations, or with status {@code 400 (Bad Request)} if the operations has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/operations")
     public ResponseEntity<Response> createOperations(@RequestBody OperationDTO operations) throws URISyntaxException, Exception {
         log.debug("REST request to save Operations : {}", operations);
-        Response response = new Response();        
-        String type_document = first_Chars(operations.getCedulaBeneficiario());        
-        if(!type_Document_Valid(type_document)){
+        Response response = new Response();
+        String type_document = first_Chars(operations.getCedulaBeneficiario());
+        if (!type_Document_Valid(type_document)) {            
+            Operations operation = new Operations(operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(),
+                    operations.getTelefonoBeneficiario(), operations.getMonto(), operations.getBancoEmisor(),
+                    operations.getConcepto(), operations.getReferencia(), operations.getFechaHora(), false, Constants.INVALID_NACIONALITY);
+            operationsRepository.save(operation);
+            log.debug("Object: {}", operation);
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
         }
-        if (Float.parseFloat(operations.getMonto()) <= 0) {
+        if (Float.parseFloat(operations.getMonto()) <= Constants.AMOUNT_MIN_DEPOSIT) {
+            Operations operation = new Operations(operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(),
+                    operations.getTelefonoBeneficiario(), operations.getMonto(), operations.getBancoEmisor(),
+                    operations.getConcepto(), operations.getReferencia(), operations.getFechaHora(), false, Constants.MINIMUM_AMOUNT);
+            operationsRepository.save(operation); 
+            log.debug("Object: {}", operation);
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
         }
         boolean validar = valid(operations);
-        if (!validar) {
+        if (!validar) {            
+            Operations operation = new Operations(operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(),
+                    operations.getTelefonoBeneficiario(), operations.getMonto(), operations.getBancoEmisor(),
+                    operations.getConcepto(), operations.getReferencia(), operations.getFechaHora(), false, Constants.IS_REQUIRED);
+            operationsRepository.save(operation);    
+            log.debug("Object: {}", operation);
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
-        }        
+        }
         String FechaOperacion = Util.InstantDateFormatedDate(operations.getFechaHora());
         PostRechargeResponse operationZacco = TransactionGateway.RechargeIntegrationP2P(6000, remove_first_Char(operations.getCedulaBeneficiario()),
                 removerZeroPhone(operations.getTelefonoEmisor()), removerZeroPhone(operations.getTelefonoBeneficiario()), Float.valueOf(operations.getMonto()),
                 operations.getBancoEmisor(), operations.getConcepto(), operations.getReferencia(), FechaOperacion);
-        
+
         if (!"00".equals(operationZacco.getResponseData().getCodigoRespuesta())) {
+            Operations operation = new Operations(operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(),
+                    operations.getTelefonoBeneficiario(), operations.getMonto(), operations.getBancoEmisor(),
+                    operations.getConcepto(), operations.getReferencia(), operations.getFechaHora(), false, Constants.UNREGISTERED_USER);
+            operationsRepository.save(operation);
+            log.debug("Object: {}", operation);
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
         }
         try {
-
-            Operations operation = new Operations();
-            operation.setCedulaBeneficiario(operations.getCedulaBeneficiario());
-            operation.setTelefonoEmisor(operations.getTelefonoEmisor());
-            operation.setTelefonoBeneficiario(operations.getTelefonoBeneficiario());
-            operation.setMonto(operations.getMonto());
-            operation.setBancoEmisor(operations.getBancoEmisor());
-            operation.setConcepto(operations.getConcepto());
-            operation.setReferencia(operations.getReferencia());
-            operation.setFechaHora(operations.getFechaHora());
+            //Transaccion realizada
+            Operations operation = new Operations(operations.getCedulaBeneficiario(), operations.getTelefonoEmisor(),
+                    operations.getTelefonoBeneficiario(), operations.getMonto(), operations.getBancoEmisor(),
+                    operations.getConcepto(), operations.getReferencia(), operations.getFechaHora(), true, Constants.SUCCESSFUL);
             operationsRepository.save(operation);
+            log.debug("Object: {}", operation);
 
-        } catch (Exception e) {
+        } catch (Exception e) {            
             response.setSuccess(false);
             return ResponseEntity.badRequest().body(response);
         }
@@ -265,6 +277,5 @@ public class OperationsResource {
               o.getFechaHora() == null || o.getFechaHora().equals(" ") || o.getFechaHora().isBlank() || o.getFechaHora().isEmpty());
 
         
-    }     
-
+    } 
 }

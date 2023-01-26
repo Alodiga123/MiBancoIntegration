@@ -8,6 +8,8 @@ export interface IOperations {
   concepto?: string | null;
   referencia?: string | null;
   fechaHora?: string | null;
+  status?: boolean | null;
+  description?: string | null;
 }
 
 export type NewOperations = Omit<IOperations, 'id'> & { id: null };

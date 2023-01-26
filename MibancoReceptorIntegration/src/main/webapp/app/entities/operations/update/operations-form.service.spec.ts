@@ -28,6 +28,8 @@ describe('Operations Form Service', () => {
             concepto: expect.any(Object),
             referencia: expect.any(Object),
             fechaHora: expect.any(Object),
+            status: expect.any(Object),
+            description: expect.any(Object),
           })
         );
       });
@@ -46,6 +48,8 @@ describe('Operations Form Service', () => {
             concepto: expect.any(Object),
             referencia: expect.any(Object),
             fechaHora: expect.any(Object),
+            status: expect.any(Object),
+            description: expect.any(Object),
           })
         );
       });

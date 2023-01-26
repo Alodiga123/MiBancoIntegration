@@ -83,6 +83,12 @@ public class OperationsService {
                 if (operations.getFechaHora() != null) {
                     existingOperations.setFechaHora(operations.getFechaHora());
                 }
+                if (operations.getStatus() != null) {
+                    existingOperations.setStatus(operations.getStatus());
+                }
+                if (operations.getDescription() != null) {
+                    existingOperations.setDescription(operations.getDescription());
+                }
 
                 return existingOperations;
             })

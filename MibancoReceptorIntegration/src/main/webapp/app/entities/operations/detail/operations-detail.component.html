@@ -48,6 +48,14 @@
         <dd>
           <span>{{ operations.fechaHora }}</span>
         </dd>
+        <dt><span jhiTranslate="mibancoReceptorIntegrationApp.operations.status">Status</span></dt>
+        <dd>
+          <span>{{ operations.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="mibancoReceptorIntegrationApp.operations.description">Description</span></dt>
+        <dd>
+          <span>{{ operations.description }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

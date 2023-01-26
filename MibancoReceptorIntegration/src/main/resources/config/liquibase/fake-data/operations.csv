@@ -1,11 +1,11 @@
-id;cedula_beneficiario;telefono_emisor;telefono_beneficiario;monto;banco_emisor;concepto;referencia;fecha_hora
-1;Comunicaciones V;Interacciones ;open-source Ho;conglomeración;Amér;Gris;Pescado scale;Kina Patatas
-2;mano;mesh defectos ;RAM AI Ensalad;back-end Netherlands;pote;Cambridgeshire navigate;feed Genérico;herramientas overriding Eslove
-3;intangible compr;PCI;Plástico;generating;Barr;dynamic Guantes Administrador;compressing Inv;Ergonómico Bricolaje
-4;New e-services s;Mesa virtual;unleash Deport;Puerto matrix;Iden;seize;Pizza Implement;Account platforms
-5;Martinica compre;Ladrillo;payment;withdrawal Cataluña;Doll;calculating overriding Berkshire;users JSON;Adaptativo Korean partnerships
-6;AGP;SMTP;whiteboard;a online;Inte;Regional parsing Ordenador;methodologies m;iterate
-7;Cliente;compressing;Gabón;Regional up Berkshir;desa;Azul Savings Sabroso;Comoro Loan Dol;Sabroso navigate
-8;multi-byte;sensor invoice;Corporativo De;transmitter;Segu;Buckinghamshire;haptic Blanco N;Senior Estratega Shilling
-9;Moda Pakistan;cutting-edge;Pa'anga Chilea;Avanzado invoice Ace;Opci;Lado application;Pakistan Hecho;Granito Siria
-10;FTP;Carretera Mone;plug-and-play;compuesto Cambridges;Acco;bluetooth Jefe;Guapo;Gris
+id;cedula_beneficiario;telefono_emisor;telefono_beneficiario;monto;banco_emisor;concepto;referencia;fecha_hora;status;description
+1;Comunicaciones V;Interacciones ;open-source Ho;conglomeración;Amér;Gris;Pescado scale;Kina Patatas;false;Dong
+2;Canarias Oficial;mobile Acero i;Dollar Pizza E;estructura;Amar;Mascotas Saint;Programable Des;Raton;false;transmitting lateral
+3;Pizza Corporativ;Account Barrio;Supervisor;whiteboard complejid;Viol;users Berkshire;Rojo;synthesize;false;monitorizar Muelle
+4;schemas;application in;interactive;mesh Ramal;Horm;amplio revolutionize Account;Implementación ;platforms generate application;true;XML
+5;virtual;de withdrawal;Buckinghamshir;Dollar calculating;Negr;Producto Adaptativo Korean;Sabroso AGP;SMTP;false;Kuwaiti a
+6;Cambridgeshire I;parsing Ordena;mission-critic;markets;Dist;compressing;Gabón;Regional up Berkshire;false;Teclado
+7;circuit Madera N;Avon synthesiz;Dollar Armenia;Senior killer;de s;Corporativo Deportes;transmitter;Seguridada wireless fritas;false;panel haptic
+8;Muelle;Reducido frita;Moda Pakistan;cutting-edge;Pa'a;Avanzado invoice Acero;Opcional Aplica;Lado application;true;monitor card
+9;Cambridgeshire;GB Interfaz Ca;potenciada plu;compuesto Cambridges;Acco;bluetooth Jefe;Guapo;Gris;true;Enfocado
+10;payment Navarra ;Arquitecto mod;Account auxili;deposit Islands Chal;Admi;payment Home interactive;bus;Sabroso CFP;true;ROI calculating

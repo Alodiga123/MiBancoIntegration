@@ -51,6 +51,13 @@ public class Operations implements Serializable {
     @Column(name = "fecha_hora", length = 30)
     private String fechaHora;
 
+    @Column(name = "status")
+    private Boolean status;
+
+    @Size(max = 255)
+    @Column(name = "description", length = 255)
+    private String description;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -170,6 +177,32 @@ public class Operations implements Serializable {
         this.fechaHora = fechaHora;
     }
 
+    public Boolean getStatus() {
+        return this.status;
+    }
+
+    public Operations status(Boolean status) {
+        this.setStatus(status);
+        return this;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Operations description(String description) {
+        this.setDescription(description);
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -202,6 +235,23 @@ public class Operations implements Serializable {
             ", concepto='" + getConcepto() + "'" +
             ", referencia='" + getReferencia() + "'" +
             ", fechaHora='" + getFechaHora() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", description='" + getDescription() + "'" +
             "}";
     }
+
+    public Operations(String cedulaBeneficiario, String telefonoEmisor, String telefonoBeneficiario, String monto, String bancoEmisor, String concepto, String referencia, String fechaHora, Boolean status, String description) {
+        this.cedulaBeneficiario = cedulaBeneficiario;
+        this.telefonoEmisor = telefonoEmisor;
+        this.telefonoBeneficiario = telefonoBeneficiario;
+        this.monto = monto;
+        this.bancoEmisor = bancoEmisor;
+        this.concepto = concepto;
+        this.referencia = referencia;
+        this.fechaHora = fechaHora;
+        this.status = status;
+        this.description = description;
+    }
+    
+    public Operations(){}
 }

@@ -25,7 +25,9 @@
       "bancoEmisor": "Banco Emisor",
       "concepto": "Concepto",
       "referencia": "Referencia",
-      "fechaHora": "Fecha Hora"
+      "fechaHora": "Fecha Hora",
+      "status": "Status",
+      "description": "Description"
     }
   }
 }

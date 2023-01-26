@@ -38,6 +38,12 @@
             <column name="fecha_hora" type="varchar(30)">
                 <constraints nullable="true" />
             </column>
+            <column name="status" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -67,6 +73,8 @@
             <column name="concepto" type="string"/>
             <column name="referencia" type="string"/>
             <column name="fecha_hora" type="string"/>
+            <column name="status" type="boolean"/>
+            <column name="description" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

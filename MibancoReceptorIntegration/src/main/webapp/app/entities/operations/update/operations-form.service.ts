@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type OperationsFormGroupInput = IOperations | PartialWithRequiredKeyOf<NewOperations>;
 
-type OperationsFormDefaults = Pick<NewOperations, 'id'>;
+type OperationsFormDefaults = Pick<NewOperations, 'id' | 'status'>;
 
 type OperationsFormGroupContent = {
   id: FormControl<IOperations['id'] | NewOperations['id']>;
@@ -26,6 +26,8 @@ type OperationsFormGroupContent = {
   concepto: FormControl<IOperations['concepto']>;
   referencia: FormControl<IOperations['referencia']>;
   fechaHora: FormControl<IOperations['fechaHora']>;
+  status: FormControl<IOperations['status']>;
+  description: FormControl<IOperations['description']>;
 };
 
 export type OperationsFormGroup = FormGroup<OperationsFormGroupContent>;
@@ -69,6 +71,10 @@ export class OperationsFormService {
       fechaHora: new FormControl(operationsRawValue.fechaHora, {
         validators: [Validators.maxLength(30)],
       }),
+      status: new FormControl(operationsRawValue.status),
+      description: new FormControl(operationsRawValue.description, {
+        validators: [Validators.maxLength(255)],
+      }),
     });
   }
 
@@ -89,6 +95,7 @@ export class OperationsFormService {
   private getFormDefaults(): OperationsFormDefaults {
     return {
       id: null,
+      status: false,
     };
   }
 }

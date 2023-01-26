@@ -39,6 +39,10 @@ public class OperationsCriteria implements Serializable, Criteria {
 
     private StringFilter fechaHora;
 
+    private BooleanFilter status;
+
+    private StringFilter description;
+
     private Boolean distinct;
 
     public OperationsCriteria() {}
@@ -53,6 +57,8 @@ public class OperationsCriteria implements Serializable, Criteria {
         this.concepto = other.concepto == null ? null : other.concepto.copy();
         this.referencia = other.referencia == null ? null : other.referencia.copy();
         this.fechaHora = other.fechaHora == null ? null : other.fechaHora.copy();
+        this.status = other.status == null ? null : other.status.copy();
+        this.description = other.description == null ? null : other.description.copy();
         this.distinct = other.distinct;
     }
 
@@ -196,6 +202,36 @@ public class OperationsCriteria implements Serializable, Criteria {
         this.fechaHora = fechaHora;
     }
 
+    public BooleanFilter getStatus() {
+        return status;
+    }
+
+    public BooleanFilter status() {
+        if (status == null) {
+            status = new BooleanFilter();
+        }
+        return status;
+    }
+
+    public void setStatus(BooleanFilter status) {
+        this.status = status;
+    }
+
+    public StringFilter getDescription() {
+        return description;
+    }
+
+    public StringFilter description() {
+        if (description == null) {
+            description = new StringFilter();
+        }
+        return description;
+    }
+
+    public void setDescription(StringFilter description) {
+        this.description = description;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -223,6 +259,8 @@ public class OperationsCriteria implements Serializable, Criteria {
             Objects.equals(concepto, that.concepto) &&
             Objects.equals(referencia, that.referencia) &&
             Objects.equals(fechaHora, that.fechaHora) &&
+            Objects.equals(status, that.status) &&
+            Objects.equals(description, that.description) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -239,6 +277,8 @@ public class OperationsCriteria implements Serializable, Criteria {
             concepto,
             referencia,
             fechaHora,
+            status,
+            description,
             distinct
         );
     }
@@ -256,6 +296,8 @@ public class OperationsCriteria implements Serializable, Criteria {
             (concepto != null ? "concepto=" + concepto + ", " : "") +
             (referencia != null ? "referencia=" + referencia + ", " : "") +
             (fechaHora != null ? "fechaHora=" + fechaHora + ", " : "") +
+            (status != null ? "status=" + status + ", " : "") +
+            (description != null ? "description=" + description + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
