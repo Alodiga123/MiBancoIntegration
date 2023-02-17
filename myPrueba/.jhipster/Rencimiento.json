@@ -1,0 +1,32 @@
+{
+  "applications": ["PruebaRendimiento"],
+  "changelogDate": "20230217182157",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "rencimiento",
+  "fields": [
+    {
+      "fieldName": "cedulaBeneficiario",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "telefonoEmisor",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "14"
+    },
+    {
+      "fieldName": "fechaHora",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "30"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Rencimiento",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}
