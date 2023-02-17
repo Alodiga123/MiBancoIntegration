@@ -1,0 +1,48 @@
+
+application {
+  config {
+    baseName PruebaRendimiento 
+    languages [en, es]
+    applicationType monolith
+    packageName com.alodiga.integretion
+    serviceDiscoveryType eureka
+    cacheProvider ehcache
+    serverPort 9999
+    enableHibernateCache true
+    authenticationType jwt
+    databaseType sql
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    searchEngine false
+    enableTranslation true
+    messageBroker false
+    serviceDiscoveryType eureka
+    enableSwaggerCodegen false
+    buildTool maven
+    clientPackageManager npm
+    clientFramework angularX
+    clientTheme none
+    testFrameworks [cypress]
+    reactive true
+  }
+  
+  entities *
+}
+
+entity Rencimiento {
+	CedulaBeneficiario Integer,
+    TelefonoEmisor String required maxlength(14),
+    FechaHora String required maxlength(30)
+}
+// Set pagination options
+paginate Rencimiento with infinite-scroll
+paginate Rencimiento with pagination
+
+ //Use Data Transfer Objects (DTO)
+ dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl except Rencimiento
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

@@ -1,0 +1,109 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-rencimiento-heading"
+        data-cy="RencimientoCreateUpdateHeading"
+        jhiTranslate="pruebaRendimientoApp.rencimiento.home.createOrEditLabel"
+      >
+        Create or edit a Rencimiento
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pruebaRendimientoApp.rencimiento.cedulaBeneficiario" for="field_cedulaBeneficiario"
+            >Cedula Beneficiario</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="cedulaBeneficiario"
+            id="field_cedulaBeneficiario"
+            data-cy="cedulaBeneficiario"
+            formControlName="cedulaBeneficiario"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pruebaRendimientoApp.rencimiento.telefonoEmisor" for="field_telefonoEmisor"
+            >Telefono Emisor</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="telefonoEmisor"
+            id="field_telefonoEmisor"
+            data-cy="telefonoEmisor"
+            formControlName="telefonoEmisor"
+          />
+          <div
+            *ngIf="
+              editForm.get('telefonoEmisor')!.invalid && (editForm.get('telefonoEmisor')!.dirty || editForm.get('telefonoEmisor')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('telefonoEmisor')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('telefonoEmisor')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 14 }"
+            >
+              This field cannot be longer than 14 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pruebaRendimientoApp.rencimiento.fechaHora" for="field_fechaHora">Fecha Hora</label>
+          <input type="text" class="form-control" name="fechaHora" id="field_fechaHora" data-cy="fechaHora" formControlName="fechaHora" />
+          <div *ngIf="editForm.get('fechaHora')!.invalid && (editForm.get('fechaHora')!.dirty || editForm.get('fechaHora')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('fechaHora')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('fechaHora')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 30 }"
+            >
+              This field cannot be longer than 30 characters.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

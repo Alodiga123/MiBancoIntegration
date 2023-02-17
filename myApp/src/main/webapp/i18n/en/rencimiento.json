@@ -1,0 +1,26 @@
+{
+  "pruebaRendimientoApp": {
+    "rencimiento": {
+      "home": {
+        "title": "Rencimientos",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Rencimiento",
+        "createOrEditLabel": "Create or edit a Rencimiento",
+        "notFound": "No Rencimientos found"
+      },
+      "created": "A new Rencimiento is created with identifier {{ param }}",
+      "updated": "A Rencimiento is updated with identifier {{ param }}",
+      "deleted": "A Rencimiento is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Rencimiento {{ id }}?"
+      },
+      "detail": {
+        "title": "Rencimiento"
+      },
+      "id": "ID",
+      "cedulaBeneficiario": "Cedula Beneficiario",
+      "telefonoEmisor": "Telefono Emisor",
+      "fechaHora": "Fecha Hora"
+    }
+  }
+}
